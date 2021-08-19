@@ -1,5 +1,8 @@
 import sqlite3
 import datetime
+import os
+
+dbname = "bills.db"
 
 class dbopen(object):
     """
@@ -18,78 +21,79 @@ class dbopen(object):
         self.conn.commit()
         self.conn.close()
 
-class Database:
+def create_database():
 
-    def __init__(self, name):
-        
-        self.name = name
+    with dbopen(dbname) as cursor:
+        cursor.execute("CREATE TABLE BILLS \
+                        (ID INTEGER PRIMARY KEY,\
+                        DATE DATE NOT NULL,\
+                        TYPE CHARACTER(10) NOT NULL,\
+                        METHOD CHARACTER(10) NOT NULL,\
+                        DESCRIPTION VARCHAR(50),\
+                        AMOUNT DOUBLE NOT NULL,\
+                        IS_INCOME TINYINT)")
+if not os.path.exists(dbname):
+    create_database()
+    
 
-    def create_database(self):
+def insert(type_, method, description, amount, is_income):
+    date = datetime.date.today()
 
-        with dbopen(self.name) as cursor:
-            cursor.execute("CREATE TABLE BILLS \
-                            (ID INT PRIMARY KEY NOT NULL,\
-                            DATE DATE NOT NULL,\
-                            AMOUNT DOUBLE NOT NULL,\
-                            DESCRIPTION VARCHAR(50),\
-                            METHOD CHARACTER(10) NOT NULL,\
-                            TYPE CHARACTER(10) NOT NULL,\
-                            IS_INCOME TINYINT")
-        
+    with dbopen(dbname) as cursor:
+        cursor.execute("INSERT INTO BILLS (DATE, TYPE, METHOD, DESCRIPTION, AMOUNT, IS_INCOME) \
+                        VALUES(?,?,?,?,?,?)", (date, type_, method, description, amount, is_income))
+    
 
-    def insert(self, amount, description, method, type_, is_income):
-        date = datetime.date.today()
+def delete(id):
 
-        with dbopen(self.name) as cursor:
-            cursor.execute("INSERT INTO BILLS (DATE, AMOUNT, DESCRIPTION, METHOD, TYPE, IS_INCOME) \
-                            VALUES(?,?,?,?,?,?)", (date, amount, description, method, type_, is_income))
-        
+    with dbopen(dbname) as cursor:
+        cursor.execute("DELETE FROM BILLS WHERE ID = ?", (id,))
+    
 
-    def delete(self, id):
+def getall():
 
-        with dbopen(self.name) as cursor:
-            cursor.execute("DELETE FROM BILLS WHERE ID = ?", (id,))
-        
+    with dbopen(dbname) as cursor:
+        res = cursor.execute("SELECT ID, DATE, TYPE, METHOD, DESCRIPTION, AMOUNT\
+                                FROM BILLS").fetchall()
 
-    def getall(self):
+    return res
 
-        with dbopen(self.name) as cursor:
-            res = cursor.fetchall()
-            
-        return res
+def change(id, type_, method, description, amount):
 
-    def change(self, id, amount, description, method, type_, is_income):
+    with dbopen(dbname) as cursor:
+        cursor.execute("UPDATE BILLS SET TYPE=?, METHOD=?\
+                        DESCRIPTION=?, AMOUNT=? WHERE ID=?", 
+                        (type_, method, description, amount, id))
+    
 
-        with dbopen(self.name) as cursor:
-            cursor.execute("UPDATE BILLS SET AMOUNT=?, DESCRIPTION=?, METHOD=?\
-                            TYPE=?, IS_INCOME=? WHERE ID=?", 
-                            (amount, description, method, type_, is_income, id))
-        
+def find_by_id(id):
 
-    def find_by_id(self, id):
+    with dbopen(dbname) as cursor:
+        res = cursor.execute("SELECT ID, DATE, TYPE, METHOD, DESCRIPTION, AMOUNT \
+                                FROM BILLS WHERE ID=?", (id, )).fetchall()
+    
+    return res
 
-        with dbopen(self.name) as cursor:
-            res = cursor.execute("SELECT * FROM BILLS WHERE ID=?", (id, ))
-        
-        return res
+def find_by_is_income(is_income):
 
-    def find_by_is_income(self, is_income):
+    with dbopen(dbname) as cursor:
+        res = cursor.execute("SELECT ID, DATE, TYPE, METHOD, DESCRIPTION, AMOUNT \
+                                FROM BILLS WHERE IS_INCOME=?", (is_income, )).fetchall()
 
-        with dbopen(self.name) as cursor:
-            res = cursor.execute("SELECT * FROM BILLS WHERE IS_INCOME=?", (is_income, ))
-        
-        return res
+    return res
 
-    def find_by_type(self, type_):
+def find_by_type(type_):
 
-        with dbopen(self.name) as cursor:
-            res = cursor.execute("SELECT * FROM BILLS WHERE TYPE=?", (type_, ))
-        
-        return res
+    with dbopen(dbname) as cursor:
+        res = cursor.execute("SELECT ID, DATE, TYPE, METHOD, DESCRIPTION, AMOUNT \
+                                 FROM BILLS WHERE TYPE=?", (type_, )).fetchall()
+    
+    return res
 
-    def find_by_method(self, method):
+def find_by_method(method):
 
-        with dbopen(self.name) as cursor:
-            res = cursor.execute("SELECT * FROM BILLS WHERE METHOD=?", (method, ))
-        
-        return res
+    with dbopen(dbname) as cursor:
+        res = cursor.execute("SELECT ID, DATE, TYPE, METHOD, DESCRIPTION, AMOUNT \
+                                FROM BILLS WHERE METHOD=?", (method, )).fetchall()
+    
+    return res
