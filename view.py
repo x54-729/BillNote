@@ -37,8 +37,12 @@ class View(QWidget):
         self.setLayout(self.mainlayout)
 
         self.init()
+        self.update()
 
     def init(self):
+
+        # filters
+        self.filter = DataFilter(self)
 
         # inert buttons
         insertlayout = QHBoxLayout()
@@ -47,11 +51,17 @@ class View(QWidget):
 
         datalayout = QHBoxLayout()
         # payment
-        self.payData = DataTable(is_income=False)
+        self.payData = DataTable(is_income=False, parent=self)
         datalayout.addWidget(self.payData)
         # income
-        self.inData = DataTable(is_income=True)
+        self.inData = DataTable(is_income=True, parent=self)
         datalayout.addWidget(self.inData)
 
         self.mainlayout.addLayout(insertlayout)
         self.mainlayout.addLayout(datalayout)
+
+    def update(self):
+
+        inDataList, payDataList = self.filter.get_data()
+        self.inData.setItems(inDataList)
+        self.payData.setItems(payDataList)

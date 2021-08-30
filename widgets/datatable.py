@@ -17,9 +17,9 @@ from .datadialog import ModifyDataDialog
 
 class DataTable(QTableWidget):
 
-    def __init__(self, is_income):
+    def __init__(self, is_income, parent):
 
-        super(DataTable, self).__init__()
+        super(DataTable, self).__init__(parent)
         self.sum = 0
         self.is_income = is_income
         self.datalist = []
@@ -28,7 +28,6 @@ class DataTable(QTableWidget):
         self.hideColumn(0)
 
         self.init()
-        self.update()
 
     def init(self):
 
@@ -55,20 +54,19 @@ class DataTable(QTableWidget):
 
     def setItems(self, data_list):
 
+        self.sun = 0
         self.datalist = data_list
         self.setRowCount(len(data_list))
         for i, data_tuple in enumerate(data_list):
             self.setItem(i, data_tuple)
 
-    def update(self):
-
-        self.sum = 0
-        bills = db.find_by_is_income(self.is_income)
-        self.setItems(bills)
-
     def showContextMenu(self):
 
         self.menu.exec(QCursor.pos())
+
+    def update(self):
+
+        self.parent().update()
 
 
 class DataTableContextMenu(QMenu):

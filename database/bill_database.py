@@ -102,6 +102,25 @@ def find_by_method(method):
     
     return [ Bill(*data) for data in res ]
 
+def find_by_filters(from_date, to_date, type_, method, from_amount, to_amount, is_income):
+
+    search_str = "SELECT ID, DATE, TYPE, METHOD, DESCRIPTION, AMOUNT, IS_INCOME \
+                FROM BILLS WHERE ? <= DATE AND DATE <= ? AND ? <= AMOUNT AND AMOUNT <= ？AND IS_INCOME = ?"
+    format_tuple = (from_date, to_date, from_amount, to_amount, is_income)
+
+    if type_ != "全部":
+        search_str += "AND TYPE = ?"
+        format_tuple += (type_)
+    
+    if method != "全部":
+        search_str += "AND METHOD = ?"
+        format_tuple += (method)
+
+    with dbopen(dbname) as cursor:
+        res = cursor.execute(search_str, format_tuple).fetchall()
+    
+    return [ Bill(*data) for data in res ]
+
 if __name__ == '__main__':
 
     bills = getall()
