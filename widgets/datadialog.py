@@ -3,7 +3,6 @@ import sys
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (
-    QComboBox,
     QDialog,
     QHBoxLayout,
     QLabel,
@@ -15,13 +14,14 @@ from PyQt5.QtWidgets import (
 
 sys.path.append("../")
 import database as db
+from .common import LabelComboBox
 
 
 class DataDialog(QDialog):
     def __init__(self, is_income, parent, type_=None, method=None, desc=None, amount=None):
         super(DataDialog, self).__init__(parent=parent)
 
-        self.setFixedSize(600, 170)
+        self.setFixedSize(380, 130)
         self.types = ["娱乐", "游戏", "生活", "食物"]
         self.methods = ["支付宝", "微信", "现金"]
         self.is_income = is_income
@@ -35,15 +35,9 @@ class DataDialog(QDialog):
 
     def init(self):
 
-        self.typeLabel = QLabel("分类：")
-        self.typeComboBox = QComboBox()
-        self.typeComboBox.addItems(self.types)
-        self.typeComboBox.setCurrentText(self.type)
+        self.typeEdit = LabelComboBox(self, "分类：", self.types, self.type)
 
-        self.methodLabel = QLabel("支付方式：")
-        self.methodComboBox = QComboBox()
-        self.methodComboBox.addItems(self.methods)
-        self.methodComboBox.setCurrentText(self.method)
+        self.methodEdit = LabelComboBox(self, "支付方式：", self.methods, self.method)
 
         self.descLabel = QLabel("备注：")
         self.descLine = QLineEdit()
@@ -61,10 +55,8 @@ class DataDialog(QDialog):
         self.confirmButton.clicked.connect(self.pressConfirmButton)
 
         toplayout = QHBoxLayout()
-        toplayout.addWidget(self.typeLabel)
-        toplayout.addWidget(self.typeComboBox)
-        toplayout.addWidget(self.methodLabel)
-        toplayout.addWidget(self.methodComboBox)
+        toplayout.addWidget(self.typeEdit)
+        toplayout.addWidget(self.methodEdit)
         toplayout.addWidget(self.amountLabel)
         toplayout.addWidget(self.amountLine)
         self.layout = QVBoxLayout()
@@ -75,9 +67,9 @@ class DataDialog(QDialog):
 
         self.setLayout(self.layout)
 
-    def get_data(self):
+    def get_text(self):
         
-        return self.typeComboBox.currentText(), self.methodComboBox.currentText(),\
+        return self.typeEdit.text(), self.methodEdit.text(),\
                 self.descLine.text(), self.amountLine.text()
 
     def pressConfirmButton(self):
@@ -96,8 +88,8 @@ class InsertDataDialog(DataDialog):
             return
 
         db.insert(
-            self.typeComboBox.currentText(),
-            self.methodComboBox.currentText(),
+            self.typeEdit.text(),
+            self.methodEdit.text(),
             self.descLine.text(),
             self.amountLine.text(),
             self.is_income
@@ -128,8 +120,8 @@ class ModifyDataDialog(DataDialog):
 
         db.change(
             self.id,
-            self.typeComboBox.currentText(),
-            self.methodComboBox.currentText(),
+            self.typeEdit.text(),
+            self.methodEdit.text(),
             self.descLine.text(),
             self.amountLine.text(),
             )
