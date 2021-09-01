@@ -95,10 +95,7 @@ class InsertDataDialog(DataDialog):
             self.is_income
             )
 
-        if self.is_income:
-            self.parent().inData.update()
-        else:
-            self.parent().payData.update()
+        self.parent().parent().update()
             
         self.close()
 

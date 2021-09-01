@@ -1,7 +1,7 @@
 import sqlite3
 import datetime
 
-from Bill import Bill
+from .Bill import Bill
 
 dbname = "bills.db"
 
@@ -121,7 +121,7 @@ def find_by_filters(from_date, to_date, type_, method, from_amount, to_amount, i
 
     return [ Bill(*data) for data in res ]
 
-if __name__ == '__main__':
+def reconstruct_database():
 
     bills = getall()
     delete_database()

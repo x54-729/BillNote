@@ -84,7 +84,7 @@ class DataTable(QTableWidget):
 class DataTableContextMenu(QMenu):
     def __init__(self, parent):
         super(DataTableContextMenu, self).__init__(parent=parent)
-        self.setFixedSize(130, 75)
+        self.setFixedSize(80, 45)
         self.init()
 
     def init(self):
@@ -115,7 +115,9 @@ class DataTableContextMenu(QMenu):
         idx = self.parent().currentRow()
         data = self.parent().datalist[idx]
         db.delete(data.id)
-        self.parent().parent().update()
+        # 按理说第二层parent应该是View
+        # 但在这里是DataArea
+        self.parent().parent().parent().update()
 
 class InsertDataButton(QPushButton):
 

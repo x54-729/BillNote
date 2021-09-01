@@ -7,5 +7,6 @@ from .bill_database import (
     find_by_is_income,
     find_by_method,
     find_by_type,
-    find_by_filters
+    find_by_filters,
+    reconstruct_database
 )
