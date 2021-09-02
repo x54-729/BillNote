@@ -1,5 +1,3 @@
-from sqlite3.dbapi2 import paramstyle
-from database.bill_database import delete
 import sys
 import argparse
 
@@ -19,6 +17,7 @@ if __name__ == '__main__':
         reconstruct_database()
 
     QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+    QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
     app = QApplication(sys.argv)
     v = View()
     v.show()

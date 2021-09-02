@@ -1,4 +1,5 @@
 from PyQt5 import QtCore
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (
     QWidget,
     QComboBox,
@@ -8,12 +9,16 @@ from PyQt5.QtWidgets import (
 )
 
 class LabelComboBox(QWidget):
-    def __init__(self, parent, text, items, default_item = None, horizontal = True):
+    def __init__(self, parent, text, items, icons=None, default_item = None, horizontal = True):
         super(LabelComboBox, self).__init__(parent=parent)
         assert default_item is None or default_item in items
+        if icons is not None:
+            assert len(icons) == len(items)
+
         self.label = QLabel(text)
         self.comboBox = QComboBox()
         self.items = items
+        self.icons = icons
         self.default = default_item
 
         self.layout = QHBoxLayout() if horizontal else QVBoxLayout()
@@ -22,7 +27,11 @@ class LabelComboBox(QWidget):
 
     def init(self):
 
-        self.comboBox.addItems(self.items)
+        if self.icons is None:
+            self.comboBox.addItems(self.items)
+        else:
+            for icon, text in zip(self.icons, self.items):
+                self.comboBox.addItem(QIcon(icon), text)
         if self.default is not None:
             self.comboBox.setCurrentText(self.default)
 

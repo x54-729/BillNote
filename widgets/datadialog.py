@@ -23,7 +23,18 @@ class DataDialog(QDialog):
 
         self.setFixedSize(380, 130)
         self.types = ["娱乐", "游戏", "生活", "食物"]
+        self.type_icons = [
+            "icons/entertainment.svg",
+            "icons/game.svg",
+            "icons/living.svg",
+            "icons/food.svg"
+        ]
         self.methods = ["支付宝", "微信", "现金"]
+        self.method_icons = [
+            "icons/alipay.svg",
+            "icons/wechat.svg",
+            "icons/cash.svg"
+        ]
         self.is_income = is_income
 
         self.type = type_
@@ -35,9 +46,9 @@ class DataDialog(QDialog):
 
     def init(self):
 
-        self.typeEdit = LabelComboBox(self, "分类：", self.types, self.type)
+        self.typeEdit = LabelComboBox(self, "分类：", self.types, self.type_icons, self.type)
 
-        self.methodEdit = LabelComboBox(self, "支付方式：", self.methods, self.method)
+        self.methodEdit = LabelComboBox(self, "支付方式：", self.methods, self.method_icons, self.method)
 
         self.descLabel = QLabel("备注：")
         self.descLine = QLineEdit()

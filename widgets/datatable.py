@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtGui import QCursor
+from PyQt5.QtGui import QCursor, QIcon, QPixmap
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (
     QAbstractItemView,
@@ -84,14 +84,14 @@ class DataTable(QTableWidget):
 class DataTableContextMenu(QMenu):
     def __init__(self, parent):
         super(DataTableContextMenu, self).__init__(parent=parent)
-        self.setFixedSize(80, 45)
+        self.setFixedSize(65, 50)
         self.init()
 
     def init(self):
 
-        self.mod = self.addAction("编辑")
+        self.mod = self.addAction(QIcon("icons/edit.svg"), "编辑")
         self.mod.triggered.connect(self.triggerModifyAction)
-        self.dele = self.addAction("删除")
+        self.dele = self.addAction(QIcon("icons/delete.svg"), "删除")
         self.dele.triggered.connect(self.triggerDelAction)
 
     def triggerModifyAction(self):
@@ -126,6 +126,7 @@ class InsertDataButton(QPushButton):
         text = "添加收入" if is_income else "添加支出"
         super(InsertDataButton, self).__init__(text, parent)
         self.is_income = is_income
+        self.setIcon(QIcon("icons/add.svg"))
         self.clicked.connect(self.pressButton)
 
     def pressButton(self):

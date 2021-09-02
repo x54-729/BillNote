@@ -34,7 +34,7 @@ class TimeFilter(QWidget):
         self.fromCalendar = QDateEdit(self.today(), self)
         self.fromCalendar.setCalendarPopup(True)
         self.fromCalendar.setDisplayFormat('yyyy-MM-dd')
-        self.connectLabel = QLabel("~")
+        self.connectLabel = QLabel(" - ")
         self.toCalendar = QDateEdit(self.today(), self)
         self.toCalendar.setCalendarPopup(True)
         self.toCalendar.setDisplayFormat('yyyy-MM-dd')
@@ -112,7 +112,7 @@ class AmountFilter(QWidget):
     def init(self):
         
         self.label = QLabel("金额：")
-        self.connectLabel = QLabel("~")
+        self.connectLabel = QLabel(" - ")
         self.fromLine = QLineEdit()
         self.fromLine.setValidator(QDoubleValidator())
         self.fromLine.setText("0")
@@ -137,7 +137,20 @@ class DataFilter(QWidget):
         super(DataFilter, self).__init__(parent)
 
         self.types = ["全部", "娱乐", "游戏", "生活", "食物"]
+        self.type_icons = [
+            "icons/all.svg",
+            "icons/entertainment.svg",
+            "icons/game.svg",
+            "icons/living.svg",
+            "icons/food.svg"
+        ]
         self.methods = ["全部", "支付宝", "微信", "现金"]
+        self.method_icons = [
+            "icons/all.svg",
+            "icons/alipay.svg",
+            "icons/wechat.svg",
+            "icons/cash.svg"
+        ]
         self.init()
 
     def init(self):
@@ -146,11 +159,11 @@ class DataFilter(QWidget):
         self.timeFilter = TimeFilter(self)
 
         # 筛选支付方式
-        self.methodFilter = LabelComboBox(self, "支付方式：", self.methods, "全部")
+        self.methodFilter = LabelComboBox(self, "支付方式：", self.methods, self.method_icons, "全部")
 
         # 筛选类别
-        self.inTypeFilter = LabelComboBox(self, "分类：", self.types, "全部")
-        self.payTypeFilter = LabelComboBox(self, "分类：", self.types, "全部")
+        self.inTypeFilter = LabelComboBox(self, "分类：", self.types, self.type_icons, "全部")
+        self.payTypeFilter = LabelComboBox(self, "分类：", self.types, self.type_icons, "全部")
 
         # 筛选金额
         self.inAmountFilter = AmountFilter(self)
