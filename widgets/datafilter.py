@@ -25,6 +25,7 @@ class TimeFilter(QWidget):
 
         self.choices = ["本日", "本月", "本年", "自定义（闭区间）"]
         self.init()
+        self.set_qss()
 
     def init(self):
 
@@ -51,6 +52,24 @@ class TimeFilter(QWidget):
         self.setLayout(self.layout)
 
         self.setCalendarsVisible(False)
+
+    def set_qss(self):
+
+        qss = '''
+            QDateEdit{
+                border:none;
+                border-bottom:1px solid;
+            }
+            QDateEdit::down-button{
+                border:none;
+                color:white;
+            }
+            QDateEdit::down-arrow{
+                image: url("icons/calendar.svg");
+            }
+        '''
+        self.fromCalendar.setStyleSheet(qss)
+        self.toCalendar.setStyleSheet(qss)
 
     def setCalendarsVisible(self, flag):
 
@@ -108,6 +127,7 @@ class AmountFilter(QWidget):
         super(AmountFilter, self).__init__(parent)
 
         self.init()
+        self.set_qss()
 
     def init(self):
         
@@ -127,6 +147,19 @@ class AmountFilter(QWidget):
         self.layout.addWidget(self.toLine)
 
         self.setLayout(self.layout)
+
+    def set_qss(self):
+
+        qss = '''
+            QLineEdit{
+                color:none;
+                border:none;
+                border-bottom:1px solid;
+            }
+        '''
+
+        self.fromLine.setStyleSheet(qss)
+        self.toLine.setStyleSheet(qss)
 
     def text(self):
 
