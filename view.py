@@ -36,6 +36,17 @@ class View(QWidget):
         self.mainlayout.addWidget(self.filter)
         self.mainlayout.addLayout(datalayout)
 
+        self.setStyleSheet('''
+            QPushButton{
+                color:white;
+                background:blue;
+                padding:3px;
+                border-radius:5px;
+                font-weight:1000;
+                font-family:"STKaiti";
+            }
+        ''')
+
     def update(self):
 
         inDataList, payDataList = self.filter.get_data()
