@@ -45,6 +45,13 @@ class View(QWidget):
                 font-weight:1000;
                 font-family:"STKaiti";
             }
+            QLineEdit{
+                padding:3px;
+                border: 1px solid black;
+                border-radius:5px;
+                font-weight:1000;
+                font-family:"STKaiti";
+            }
         ''')
 
     def update(self):

@@ -57,15 +57,22 @@ class TimeFilter(QWidget):
 
         qss = '''
             QDateEdit{
-                border:none;
-                border-bottom:1px solid;
+                padding: 3px;
+                border: none;
+                border: 1px solid;
+                border-radius: 5px;
+                font-weight:1000;
+                font-family:"STKaiti";
             }
-            QDateEdit::down-button{
-                border:none;
+            QDateEdit::drop-down{
+                border: none;
                 color:white;
+                width: 15px
             }
             QDateEdit::down-arrow{
                 image: url("icons/calendar.svg");
+                width: 10px;
+                height: 10px;
             }
         '''
         self.fromCalendar.setStyleSheet(qss)
@@ -154,7 +161,7 @@ class AmountFilter(QWidget):
             QLineEdit{
                 color:none;
                 border:none;
-                border-bottom:1px solid;
+                border:1px solid black;
             }
         '''
 

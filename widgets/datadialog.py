@@ -21,7 +21,7 @@ class DataDialog(QDialog):
     def __init__(self, is_income, parent, type_=None, method=None, desc=None, amount=None):
         super(DataDialog, self).__init__(parent=parent)
 
-        self.setFixedSize(380, 130)
+        self.setFixedSize(430, 130)
         self.types = ["娱乐", "游戏", "生活", "食物"]
         self.type_icons = [
             "icons/entertainment.svg",
@@ -77,6 +77,7 @@ class DataDialog(QDialog):
         self.layout.addWidget(self.confirmButton, alignment=QtCore.Qt.AlignCenter)
 
         self.setLayout(self.layout)
+
 
     def get_text(self):
         
