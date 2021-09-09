@@ -37,6 +37,10 @@ class View(QWidget):
         self.mainlayout.addLayout(datalayout)
 
         self.setStyleSheet('''
+            QLabel{
+                font-weight:1000;
+                font-family:"STKaiti";
+            }
             QPushButton{
                 color:white;
                 background:blue;

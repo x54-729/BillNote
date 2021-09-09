@@ -14,7 +14,7 @@ from PyQt5.QtWidgets import (
     QToolTip,
     QVBoxLayout,
     QWidget, 
-    QPushButton
+    QPushButton,
 )
 
 sys.path.append("../")
@@ -53,8 +53,22 @@ class DataTable(QTableWidget):
         # 悬停显示
         self.cellEntered.connect(self.showCellText)
         self.setMouseTracking(True)
+        self.setShowGrid(False)
 
         self.menu = DataTableContextMenu(self)
+
+        self.setStyleSheet('''
+            QTableWidget{
+                border: 2px solid;
+                border-radius: 5px;
+                font-weight:1000;
+                font-family:"STKaiti";
+            }
+            QTableWidget::item{
+                border-radius: 5px;
+                background: #98F5FF;
+            }
+        ''')
 
     def showCellText(self, row, col):
         text = self.item(row, col).text()
